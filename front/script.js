@@ -1,4 +1,8 @@
-const { ipcMain } = require('electron')
+const { ipcMain } = require('electron');
+
+const { shell } = require('electron');
+const { exec } = require("child_process");
+const { stdout, stderr } = require('process');
 
 // on déclare le renderer
 const ipc  = require('electron').ipcRenderer
@@ -27,4 +31,26 @@ ipc.on('MonSecondChannel', (event, pass) => {
 
 
 })
+
+// ici sa lance une commande terminl
+function openLink(url){
+    shell.openExternal(url)
+}
+
+function commandTerminal(){
+
+    let cmd = 'ls -l';
+
+    exec(cmd, (error, stdout, stderr) => {
+
+
+        if(error) {
+            console.error("Exec error : " , error);
+            return;
+        }
+        console.log('stdout : ', stdout);
+        console.log('stderr : ', stderr);
+    });
+
+}
 
